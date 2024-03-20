@@ -22,6 +22,27 @@
 //!     },
 //! );
 //! ```
+//!
+//! Error messages will include information about the stream that failed to decode, as well as the
+//! output (with invalid UTF-8 bytes replaced with U+FFFD REPLACEMENT CHARACTER):
+//!
+//! ```
+//! # use std::process::ExitStatus;
+//! # use std::process::Output;
+//! # use utf8_command::Utf8Output;
+//! # use utf8_command::Error;
+//! let invalid = Output {
+//!     status: ExitStatus::default(),
+//!     stdout: Vec::from(b"puppy doggy \xc3\x28"), // Invalid 2-byte sequence.
+//!     stderr: Vec::from(b""),
+//! };
+//!
+//! let err: Result<Utf8Output, Error> = invalid.try_into();
+//! assert_eq!(
+//!     err.unwrap_err().to_string(),
+//!     "Stdout contained invalid utf-8 sequence of 1 bytes from index 12: \"puppy doggy �(\""
+//! );
+//! ```
 
 #![deny(missing_docs)]
 
