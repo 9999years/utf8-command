@@ -1,6 +1,6 @@
 [package]
 name = "utf8-command"
-version = "1.0.0"
+version = "0.1.0"
 description = "UTF-8 encoded `std::process::Command` output"
 edition = "2021"
 license = "MIT"
